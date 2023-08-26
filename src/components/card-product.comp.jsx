@@ -1,47 +1,38 @@
 /* eslint-disable react-refresh/only-export-components */
 import { Card } from "react-bootstrap";
-import { CartPlusFill } from "react-bootstrap-icons";
+import {
+  BoxArrowInUpRight,
+} from "react-bootstrap-icons";
 import PropTypes from "prop-types";
 
-import TagComp from "./tag.comp";
-import imageDummy from "../assets/react.svg";
-import { formatRupiah } from "../utils";
-import { addItem } from "../app/features/cart/actions.cart";
-import { useDispatch } from "react-redux";
 import { memo } from "react";
+import { Link } from "react-router-dom";
 
 const CardProductComp = ({ products }) => {
-  const dispatch = useDispatch();
   return (
     <>
       {products
         ? products.map((item) => (
-            <div key={item._id}>
+            <div key={item.id}>
               <Card style={{ width: "16rem" }}>
                 <div className="row d-flex justify-content-center">
                   <Card.Img
                     variant="top"
                     style={{ width: "8rem" }}
-                    src={imageDummy}
+                    src={item.photo}
                   />
                 </div>
                 <Card.Body>
                   <Card.Title>{item.name.toLowerCase()}</Card.Title>
-                  <TagComp tag={item.tags} />
                   <Card.Text>{item.description.toLowerCase()}</Card.Text>
-                  <Card.Text>{formatRupiah(item.price)}</Card.Text>
-                  <div
-                    className="row bg-primary p-1 rounded"
-                    onClick={() => {
-                      dispatch(addItem(item));
-                    }}
-                  >
-                    <CartPlusFill
-                      className="text-white"
-                      size={20}
-                      role="button"
-                    />
-                  </div>
+                  <Card.Text>
+                    {item.currency} {item.price}
+                  </Card.Text>
+                  <Card.Text>stock : {item.stock}</Card.Text>
+                  <Link className="mx-1" to={`detail-product/${item.id}`}>
+                    <span>detail</span>
+                    <BoxArrowInUpRight />
+                  </Link>
                 </Card.Body>
               </Card>
             </div>
